@@ -1,0 +1,103 @@
+var _thebritican$elm_autocomplete$Autocomplete$HtmlDetails = F2(
+	function (a, b) {
+		return {attributes: a, children: b};
+	});
+var _thebritican$elm_autocomplete$Autocomplete$SectionNode = F3(
+	function (a, b, c) {
+		return {nodeType: a, attributes: b, children: c};
+	});
+var _thebritican$elm_autocomplete$Autocomplete$State = function (a) {
+	return {ctor: 'State', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$empty = _thebritican$elm_autocomplete$Autocomplete$State(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$empty);
+var _thebritican$elm_autocomplete$Autocomplete$reset = F2(
+	function (_p1, _p0) {
+		var _p2 = _p1;
+		var _p3 = _p0;
+		return _thebritican$elm_autocomplete$Autocomplete$State(
+			A2(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$reset, _p2._0, _p3._0));
+	});
+var _thebritican$elm_autocomplete$Autocomplete$resetToFirstItem = F4(
+	function (_p5, data, howManyToShow, _p4) {
+		var _p6 = _p5;
+		var _p7 = _p4;
+		return _thebritican$elm_autocomplete$Autocomplete$State(
+			A4(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToFirstItem, _p6._0, data, howManyToShow, _p7._0));
+	});
+var _thebritican$elm_autocomplete$Autocomplete$resetToLastItem = F4(
+	function (_p9, data, howManyToShow, _p8) {
+		var _p10 = _p9;
+		var _p11 = _p8;
+		return _thebritican$elm_autocomplete$Autocomplete$State(
+			A4(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToLastItem, _p10._0, data, howManyToShow, _p11._0));
+	});
+var _thebritican$elm_autocomplete$Autocomplete$update = F5(
+	function (_p14, _p13, howManyToShow, _p12, data) {
+		var _p15 = _p14;
+		var _p16 = _p13;
+		var _p17 = _p12;
+		var _p18 = A5(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$update, _p15._0, _p16._0, howManyToShow, _p17._0, data);
+		var newState = _p18._0;
+		var maybeMsg = _p18._1;
+		return {
+			ctor: '_Tuple2',
+			_0: _thebritican$elm_autocomplete$Autocomplete$State(newState),
+			_1: maybeMsg
+		};
+	});
+var _thebritican$elm_autocomplete$Autocomplete$Msg = function (a) {
+	return {ctor: 'Msg', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$subscription = A2(_elm_lang$core$Platform_Sub$map, _thebritican$elm_autocomplete$Autocomplete$Msg, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$subscription);
+var _thebritican$elm_autocomplete$Autocomplete$view = F4(
+	function (_p20, howManyToShow, _p19, data) {
+		var _p21 = _p20;
+		var _p22 = _p19;
+		return A2(
+			_elm_lang$html$Html$map,
+			_thebritican$elm_autocomplete$Autocomplete$Msg,
+			A4(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$view, _p21._0, howManyToShow, _p22._0, data));
+	});
+var _thebritican$elm_autocomplete$Autocomplete$viewWithSections = F4(
+	function (_p24, howManyToShow, _p23, sections) {
+		var _p25 = _p24;
+		var _p26 = _p23;
+		return A2(
+			_elm_lang$html$Html$map,
+			_thebritican$elm_autocomplete$Autocomplete$Msg,
+			A4(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewWithSections, _p25._0, howManyToShow, _p26._0, sections));
+	});
+var _thebritican$elm_autocomplete$Autocomplete$UpdateConfig = function (a) {
+	return {ctor: 'UpdateConfig', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$updateConfig = function (config) {
+	return _thebritican$elm_autocomplete$Autocomplete$UpdateConfig(
+		_thebritican$elm_autocomplete$Autocomplete_Autocomplete$updateConfig(config));
+};
+var _thebritican$elm_autocomplete$Autocomplete$ViewConfig = function (a) {
+	return {ctor: 'ViewConfig', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$viewConfig = function (config) {
+	return _thebritican$elm_autocomplete$Autocomplete$ViewConfig(
+		_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewConfig(config));
+};
+var _thebritican$elm_autocomplete$Autocomplete$ViewWithSectionsConfig = function (a) {
+	return {ctor: 'ViewWithSectionsConfig', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$viewWithSectionsConfig = function (config) {
+	return _thebritican$elm_autocomplete$Autocomplete$ViewWithSectionsConfig(
+		function () {
+			var _p27 = config.section;
+			return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewWithSectionsConfig(
+				_elm_lang$core$Native_Utils.update(
+					config,
+					{section: _p27._0}));
+		}());
+};
+var _thebritican$elm_autocomplete$Autocomplete$SectionConfig = function (a) {
+	return {ctor: 'SectionConfig', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete$sectionConfig = function (section) {
+	return _thebritican$elm_autocomplete$Autocomplete$SectionConfig(
+		_thebritican$elm_autocomplete$Autocomplete_Autocomplete$sectionConfig(section));
+};

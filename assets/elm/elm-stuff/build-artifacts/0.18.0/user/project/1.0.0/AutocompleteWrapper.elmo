@@ -1,0 +1,628 @@
+var _user$project$AutocompleteWrapper$viewConfig = function () {
+	var customizedLi = F3(
+		function (keySelected, mouseSelected, menuItem) {
+			return {
+				attributes: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$classList(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'autocomplete-item', _1: true},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'key-selected', _1: keySelected || mouseSelected},
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id(menuItem),
+						_1: {ctor: '[]'}
+					}
+				},
+				children: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(menuItem),
+					_1: {ctor: '[]'}
+				}
+			};
+		});
+	return _thebritican$elm_autocomplete$Autocomplete$viewConfig(
+		{
+			toId: function (id) {
+				return id;
+			},
+			ul: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('autocomplete-list'),
+				_1: {ctor: '[]'}
+			},
+			li: customizedLi
+		});
+}();
+var _user$project$AutocompleteWrapper$acceptableItems = F2(
+	function (value, menuItems) {
+		var lowerQuery = _elm_lang$core$String$toLower(value);
+		return A2(
+			_elm_lang$core$List$filter,
+			function (_p0) {
+				return A2(
+					_elm_lang$core$String$contains,
+					lowerQuery,
+					_elm_lang$core$String$toLower(_p0));
+			},
+			menuItems);
+	});
+var _user$project$AutocompleteWrapper$getMenuItemAtId = F2(
+	function (menuItems, id) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			'',
+			_elm_lang$core$List$head(
+				A2(
+					_elm_lang$core$List$filter,
+					function (menuItem) {
+						return _elm_lang$core$Native_Utils.eq(menuItem, id);
+					},
+					menuItems)));
+	});
+var _user$project$AutocompleteWrapper$setQuery = F2(
+	function (model, id) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				value: A2(_user$project$AutocompleteWrapper$getMenuItemAtId, model.menuItems, id),
+				selectedMenuItem: _elm_lang$core$Maybe$Just(
+					A2(_user$project$AutocompleteWrapper$getMenuItemAtId, model.menuItems, id))
+			});
+	});
+var _user$project$AutocompleteWrapper$removeSelection = function (model) {
+	return _elm_lang$core$Native_Utils.update(
+		model,
+		{selectedMenuItem: _elm_lang$core$Maybe$Nothing});
+};
+var _user$project$AutocompleteWrapper$resetMenu = function (model) {
+	return _elm_lang$core$Native_Utils.update(
+		model,
+		{state: _thebritican$elm_autocomplete$Autocomplete$empty, showMenu: false});
+};
+var _user$project$AutocompleteWrapper$resetInput = function (model) {
+	return _user$project$AutocompleteWrapper$resetMenu(
+		_user$project$AutocompleteWrapper$removeSelection(
+			_elm_lang$core$Native_Utils.update(
+				model,
+				{value: ''})));
+};
+var _user$project$AutocompleteWrapper$init = F3(
+	function (id, name, menuItems1) {
+		return {value: '', id: id, name: name, menuItems: menuItems1, state: _thebritican$elm_autocomplete$Autocomplete$empty, howManyToShow: 50, selectedMenuItem: _elm_lang$core$Maybe$Nothing, showMenu: false, focus: false, preventingBlur: false, preventingFocus: false};
+	});
+var _user$project$AutocompleteWrapper$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return {value: a, id: b, name: c, menuItems: d, state: e, howManyToShow: f, selectedMenuItem: g, showMenu: h, focus: i, preventingBlur: j, preventingFocus: k};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+var _user$project$AutocompleteWrapper$NoOpAutocom = {ctor: 'NoOpAutocom'};
+var _user$project$AutocompleteWrapper$Reset = {ctor: 'Reset'};
+var _user$project$AutocompleteWrapper$PreventFocusAndBlur = {ctor: 'PreventFocusAndBlur'};
+var _user$project$AutocompleteWrapper$OnBlurAutocom = {ctor: 'OnBlurAutocom'};
+var _user$project$AutocompleteWrapper$OnFocusAutocom = {ctor: 'OnFocusAutocom'};
+var _user$project$AutocompleteWrapper$HandleEscape = {ctor: 'HandleEscape'};
+var _user$project$AutocompleteWrapper$PreviewMenuItem = function (a) {
+	return {ctor: 'PreviewMenuItem', _0: a};
+};
+var _user$project$AutocompleteWrapper$SelectMenuItemMouse = function (a) {
+	return {ctor: 'SelectMenuItemMouse', _0: a};
+};
+var _user$project$AutocompleteWrapper$SelectMenuItemKeyboard = function (a) {
+	return {ctor: 'SelectMenuItemKeyboard', _0: a};
+};
+var _user$project$AutocompleteWrapper$Wrap = function (a) {
+	return {ctor: 'Wrap', _0: a};
+};
+var _user$project$AutocompleteWrapper$updateConfig = F2(
+	function (msgId, originMessage) {
+		return _thebritican$elm_autocomplete$Autocomplete$updateConfig(
+			{
+				toId: function (id) {
+					return id;
+				},
+				onKeyDown: F2(
+					function (code, maybeId) {
+						return (_elm_lang$core$Native_Utils.eq(code, 38) || _elm_lang$core$Native_Utils.eq(code, 40)) ? A2(
+							_elm_lang$core$Maybe$map,
+							function (_p1) {
+								return A2(
+									originMessage,
+									msgId,
+									_user$project$AutocompleteWrapper$PreviewMenuItem(_p1));
+							},
+							maybeId) : (_elm_lang$core$Native_Utils.eq(code, 13) ? A2(
+							_elm_lang$core$Maybe$map,
+							function (_p2) {
+								return A2(
+									originMessage,
+									msgId,
+									_user$project$AutocompleteWrapper$SelectMenuItemKeyboard(_p2));
+							},
+							maybeId) : _elm_lang$core$Maybe$Just(
+							A2(originMessage, msgId, _user$project$AutocompleteWrapper$Reset)));
+					}),
+				onTooLow: _elm_lang$core$Maybe$Just(
+					function (_p3) {
+						return A2(
+							originMessage,
+							msgId,
+							_user$project$AutocompleteWrapper$Wrap(_p3));
+					}(false)),
+				onTooHigh: _elm_lang$core$Maybe$Just(
+					function (_p4) {
+						return A2(
+							originMessage,
+							msgId,
+							_user$project$AutocompleteWrapper$Wrap(_p4));
+					}(true)),
+				onMouseEnter: function (_p5) {
+					return _elm_lang$core$Maybe$Nothing;
+				},
+				onMouseLeave: function (_p6) {
+					return _elm_lang$core$Maybe$Nothing;
+				},
+				onMouseClick: function (id) {
+					return _elm_lang$core$Maybe$Just(
+						function (_p7) {
+							return A2(
+								originMessage,
+								msgId,
+								_user$project$AutocompleteWrapper$SelectMenuItemMouse(_p7));
+						}(id));
+				},
+				separateSelections: false
+			});
+	});
+var _user$project$AutocompleteWrapper$update = F4(
+	function (msg, model, originMessage, msgConverter) {
+		update:
+		while (true) {
+			var _p8 = msg;
+			switch (_p8.ctor) {
+				case 'SetQuery':
+					var _p10 = _p8._0;
+					var showMenu = function (_p9) {
+						return !_elm_lang$core$List$isEmpty(_p9);
+					}(
+						A2(_user$project$AutocompleteWrapper$acceptableItems, _p10, model.menuItems));
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{value: _p10, showMenu: showMenu, selectedMenuItem: _elm_lang$core$Maybe$Nothing}),
+						{ctor: '[]'});
+				case 'SetAutoState':
+					if (!model.focus) {
+						return A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							model,
+							{ctor: '[]'});
+					} else {
+						var _p11 = A5(
+							_thebritican$elm_autocomplete$Autocomplete$update,
+							A2(_user$project$AutocompleteWrapper$updateConfig, model.id, originMessage),
+							_p8._0,
+							model.howManyToShow,
+							model.state,
+							A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems));
+						var newState = _p11._0;
+						var maybeMsg = _p11._1;
+						var newModel = _elm_lang$core$Native_Utils.update(
+							model,
+							{state: newState});
+						var _p12 = maybeMsg;
+						if (_p12.ctor === 'Nothing') {
+							return A2(
+								_elm_lang$core$Platform_Cmd_ops['!'],
+								newModel,
+								{ctor: '[]'});
+						} else {
+							var _p13 = msgConverter(_p12._0);
+							var id = _p13._0;
+							var autocomMsg = _p13._1;
+							var _v2 = autocomMsg,
+								_v3 = newModel,
+								_v4 = originMessage,
+								_v5 = msgConverter;
+							msg = _v2;
+							model = _v3;
+							originMessage = _v4;
+							msgConverter = _v5;
+							continue update;
+						}
+					}
+				case 'Wrap':
+					var _p14 = model.selectedMenuItem;
+					if (_p14.ctor === 'Just') {
+						var _v7 = _user$project$AutocompleteWrapper$Reset,
+							_v8 = model,
+							_v9 = originMessage,
+							_v10 = msgConverter;
+						msg = _v7;
+						model = _v8;
+						originMessage = _v9;
+						msgConverter = _v10;
+						continue update;
+					} else {
+						return _p8._0 ? A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							_elm_lang$core$Native_Utils.update(
+								model,
+								{
+									state: A4(
+										_thebritican$elm_autocomplete$Autocomplete$resetToLastItem,
+										A2(_user$project$AutocompleteWrapper$updateConfig, model.id, originMessage),
+										A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems),
+										model.howManyToShow,
+										model.state),
+									selectedMenuItem: _elm_lang$core$List$head(
+										_elm_lang$core$List$reverse(
+											A2(
+												_elm_lang$core$List$take,
+												model.howManyToShow,
+												A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems))))
+								}),
+							{ctor: '[]'}) : A2(
+							_elm_lang$core$Platform_Cmd_ops['!'],
+							_elm_lang$core$Native_Utils.update(
+								model,
+								{
+									state: A4(
+										_thebritican$elm_autocomplete$Autocomplete$resetToFirstItem,
+										A2(_user$project$AutocompleteWrapper$updateConfig, model.id, originMessage),
+										A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems),
+										model.howManyToShow,
+										model.state),
+									selectedMenuItem: _elm_lang$core$List$head(
+										A2(
+											_elm_lang$core$List$take,
+											model.howManyToShow,
+											A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems)))
+								}),
+							{ctor: '[]'});
+					}
+				case 'SelectMenuItemKeyboard':
+					var newModel = _user$project$AutocompleteWrapper$resetMenu(
+						A2(_user$project$AutocompleteWrapper$setQuery, model, _p8._0));
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						newModel,
+						{ctor: '[]'});
+				case 'SelectMenuItemMouse':
+					var msgId = 99;
+					var newModel = _user$project$AutocompleteWrapper$resetMenu(
+						A2(_user$project$AutocompleteWrapper$setQuery, model, _p8._0));
+					return {
+						ctor: '_Tuple2',
+						_0: newModel,
+						_1: A2(
+							_elm_lang$core$Task$attempt,
+							function (_p15) {
+								return A2(originMessage, model.id, _user$project$AutocompleteWrapper$NoOpAutocom);
+							},
+							_elm_lang$dom$Dom$focus(model.id))
+					};
+				case 'PreviewMenuItem':
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{
+								selectedMenuItem: _elm_lang$core$Maybe$Just(
+									A2(_user$project$AutocompleteWrapper$getMenuItemAtId, model.menuItems, _p8._0))
+							}),
+						{ctor: '[]'});
+				case 'HandleEscape':
+					var validOptions = !_elm_lang$core$List$isEmpty(
+						A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems));
+					var handleEscape = validOptions ? _user$project$AutocompleteWrapper$resetMenu(
+						_user$project$AutocompleteWrapper$removeSelection(model)) : _user$project$AutocompleteWrapper$resetInput(model);
+					var escapedModel = function () {
+						var _p16 = model.selectedMenuItem;
+						if (_p16.ctor === 'Just') {
+							return _elm_lang$core$Native_Utils.eq(model.value, _p16._0) ? _user$project$AutocompleteWrapper$resetInput(model) : handleEscape;
+						} else {
+							return handleEscape;
+						}
+					}();
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						escapedModel,
+						{ctor: '[]'});
+				case 'Reset':
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{
+								state: A2(
+									_thebritican$elm_autocomplete$Autocomplete$reset,
+									A2(_user$project$AutocompleteWrapper$updateConfig, model.id, originMessage),
+									model.state),
+								selectedMenuItem: _elm_lang$core$Maybe$Nothing
+							}),
+						{ctor: '[]'});
+				case 'OnFocusAutocom':
+					return model.preventingFocus ? A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{preventingFocus: false}),
+						{ctor: '[]'}) : A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{focus: true, showMenu: true}),
+						{ctor: '[]'});
+				case 'OnBlurAutocom':
+					return model.preventingBlur ? A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{preventingBlur: false}),
+						{ctor: '[]'}) : A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{focus: false, showMenu: false}),
+						{ctor: '[]'});
+				case 'PreventFocusAndBlur':
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{preventingFocus: true, preventingBlur: true}),
+						{ctor: '[]'});
+				default:
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						model,
+						{ctor: '[]'});
+			}
+		}
+	});
+var _user$project$AutocompleteWrapper$SetAutoState = function (a) {
+	return {ctor: 'SetAutoState', _0: a};
+};
+var _user$project$AutocompleteWrapper$viewMenu = F2(
+	function (model, originMessage) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('autocomplete-menu'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onMouseDown(
+						A2(originMessage, model.id, _user$project$AutocompleteWrapper$PreventFocusAndBlur)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$map,
+					function (_p17) {
+						return A2(
+							originMessage,
+							model.id,
+							_user$project$AutocompleteWrapper$SetAutoState(_p17));
+					},
+					A4(
+						_thebritican$elm_autocomplete$Autocomplete$view,
+						_user$project$AutocompleteWrapper$viewConfig,
+						model.howManyToShow,
+						model.state,
+						A2(_user$project$AutocompleteWrapper$acceptableItems, model.value, model.menuItems))),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$AutocompleteWrapper$SetQuery = function (a) {
+	return {ctor: 'SetQuery', _0: a};
+};
+var _user$project$AutocompleteWrapper$view = F2(
+	function (model, originMessage) {
+		var activeDescendant = function (attributes) {
+			var _p18 = model.selectedMenuItem;
+			if (_p18.ctor === 'Just') {
+				return {
+					ctor: '::',
+					_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-activedescendant', _p18._0),
+					_1: attributes
+				};
+			} else {
+				return attributes;
+			}
+		};
+		var fieldValue = function () {
+			var _p19 = model.selectedMenuItem;
+			if (_p19.ctor === 'Just') {
+				return _p19._0;
+			} else {
+				return model.value;
+			}
+		}();
+		var menu = model.showMenu ? {
+			ctor: '::',
+			_0: A2(_user$project$AutocompleteWrapper$viewMenu, model, originMessage),
+			_1: {ctor: '[]'}
+		} : {ctor: '[]'};
+		var fromResult = function (result) {
+			var _p20 = result;
+			if (_p20.ctor === 'Ok') {
+				return _elm_lang$core$Json_Decode$succeed(_p20._0);
+			} else {
+				return _elm_lang$core$Json_Decode$fail(_p20._0);
+			}
+		};
+		var dec = A2(
+			_elm_lang$core$Json_Decode$andThen,
+			fromResult,
+			A2(
+				_elm_lang$core$Json_Decode$map,
+				function (code) {
+					return (_elm_lang$core$Native_Utils.eq(code, 38) || _elm_lang$core$Native_Utils.eq(code, 40)) ? _elm_lang$core$Result$Ok(
+						A2(originMessage, model.id, _user$project$AutocompleteWrapper$NoOpAutocom)) : (_elm_lang$core$Native_Utils.eq(code, 27) ? _elm_lang$core$Result$Ok(
+						A2(originMessage, model.id, _user$project$AutocompleteWrapper$HandleEscape)) : _elm_lang$core$Result$Err('not handling that key'));
+				},
+				_elm_lang$html$Html_Events$keyCode));
+		var options = {preventDefault: true, stopPropagation: false};
+		return A2(
+			_elm_lang$html$Html$label,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'position', _1: 'relative'},
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			A2(
+				_elm_lang$core$List$append,
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$classList(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'placeholder', _1: true},
+									_1: {
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'upperPosition',
+											_1: model.focus || (!_elm_lang$core$Native_Utils.eq(fieldValue, ''))
+										},
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(model.name),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							activeDescendant(
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('text'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(
+											function (_p21) {
+												return A2(
+													originMessage,
+													model.id,
+													_user$project$AutocompleteWrapper$SetQuery(_p21));
+											}),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onFocus(
+												A2(originMessage, model.id, _user$project$AutocompleteWrapper$OnFocusAutocom)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onBlur(
+													A2(originMessage, model.id, _user$project$AutocompleteWrapper$OnBlurAutocom)),
+												_1: {
+													ctor: '::',
+													_0: A3(_elm_lang$html$Html_Events$onWithOptions, 'keydown', options, dec),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(fieldValue),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$id(model.id),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$classList(
+																	{
+																		ctor: '::',
+																		_0: {ctor: '_Tuple2', _0: 'autocomplete-input', _1: true},
+																		_1: {
+																			ctor: '::',
+																			_0: {ctor: '_Tuple2', _0: 'autocomplete-open', _1: model.showMenu},
+																			_1: {ctor: '[]'}
+																		}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$autocomplete(false),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-owns', 'list-of-presidents'),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html_Attributes$attribute,
+																				'aria-expanded',
+																				_elm_lang$core$String$toLower(
+																					_elm_lang$core$Basics$toString(model.showMenu))),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html_Attributes$attribute,
+																					'aria-haspopup',
+																					_elm_lang$core$String$toLower(
+																						_elm_lang$core$Basics$toString(model.showMenu))),
+																				_1: {
+																					ctor: '::',
+																					_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'combobox'),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(_elm_lang$html$Html_Attributes$attribute, 'aria-autocomplete', 'list'),
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}),
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				},
+				menu));
+	});

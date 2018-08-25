@@ -1,0 +1,384 @@
+var _user$project$Main$singleOutput = function (section) {
+	var line = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'<',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			section.ofType,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				'>',
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					section.body,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						'<\\',
+						A2(_elm_lang$core$Basics_ops['++'], section.ofType, '>'))))));
+	return A2(
+		_elm_lang$html$Html$p,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(line),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$output = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			_user$project$Main$singleOutput,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				model.sections,
+				{
+					ctor: '::',
+					_0: model.newSection,
+					_1: {ctor: '[]'}
+				})));
+};
+var _user$project$Main$ofTypeItems = {
+	ctor: '::',
+	_0: 'title',
+	_1: {
+		ctor: '::',
+		_0: 'rubric',
+		_1: {
+			ctor: '::',
+			_0: 'plaintext',
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Main$initSection = {ofType: '', body: '', n: 0};
+var _user$project$Main$initModel = {
+	newSection: _user$project$Main$initSection,
+	sections: {ctor: '[]'},
+	editingSection: false,
+	ofTypeMenu: A3(_user$project$AutocompleteWrapper$init, 'of-types', 'Section', _user$project$Main$ofTypeItems)
+};
+var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$Section = F3(
+	function (a, b, c) {
+		return {ofType: a, body: b, n: c};
+	});
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {newSection: a, sections: b, editingSection: c, ofTypeMenu: d};
+	});
+var _user$project$Main$SetBody = function (a) {
+	return {ctor: 'SetBody', _0: a};
+};
+var _user$project$Main$SetSectionType = function (a) {
+	return {ctor: 'SetSectionType', _0: a};
+};
+var _user$project$Main$Save = {ctor: 'Save'};
+var _user$project$Main$OriginMessage = F2(
+	function (a, b) {
+		return {ctor: 'OriginMessage', _0: a, _1: b};
+	});
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$core$Platform_Sub$map,
+				function (_p0) {
+					return A2(
+						_user$project$Main$OriginMessage,
+						model.ofTypeMenu.id,
+						_user$project$AutocompleteWrapper$SetAutoState(_p0));
+				},
+				_thebritican$elm_autocomplete$Autocomplete$subscription),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$viewForm = function (model) {
+	var saveButtonText = model.editingSection ? 'Next Section' : 'Save All';
+	return A2(
+		_elm_lang$html$Html$form,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Events$onSubmit(_user$project$Main$Save),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$fieldset,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(_user$project$AutocompleteWrapper$view, model.ofTypeMenu, _user$project$Main$OriginMessage),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_user$project$Views_Form$textarea,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('Enter Text'),
+								_1: {
+									ctor: '::',
+									_0: A2(_elm_lang$html$Html_Attributes$attribute, 'rows', '8'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$SetBody),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(model.newSection.body),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('btn btn-lg pull-xs-right btn-primary'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text(saveButtonText),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$leftSide = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('leftSide fl w-100 w-50-ns pa2'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Main$viewForm(model),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$FocusResult = function (a) {
+	return {ctor: 'FocusResult', _0: a};
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var msgConverter = function (msg) {
+			var _p1 = msg;
+			if (_p1.ctor === 'OriginMessage') {
+				return {ctor: '_Tuple2', _0: _p1._0, _1: _p1._1};
+			} else {
+				return {ctor: '_Tuple2', _0: '', _1: _user$project$AutocompleteWrapper$NoOpAutocom};
+			}
+		};
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'OriginMessage':
+				if (_elm_lang$core$Native_Utils.eq(_p2._0, model.ofTypeMenu.id)) {
+					var section = model.newSection;
+					var _p3 = A4(_user$project$AutocompleteWrapper$update, _p2._1, model.ofTypeMenu, _user$project$Main$OriginMessage, msgConverter);
+					var newModel = _p3._0;
+					var newMsg = _p3._1;
+					var _p4 = A2(_elm_lang$core$Debug$log, 'debug 113: ', newMsg);
+					var _p5 = A2(_elm_lang$core$Debug$log, 'debug 114: ', newModel);
+					var newSection = _elm_lang$core$Native_Utils.update(
+						section,
+						{ofType: newModel.value});
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{ofTypeMenu: newModel, newSection: newSection}),
+						_1: newMsg
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'Noop':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'Edit':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{newSection: _p2._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'FocusOn':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_elm_lang$core$Task$attempt,
+						_user$project$Main$FocusResult,
+						_elm_lang$dom$Dom$focus(_p2._0))
+				};
+			case 'FocusResult':
+				var _p6 = _p2._0;
+				if (_p6.ctor === 'Err') {
+					var _p7 = A2(_elm_lang$core$Debug$log, 'ID NOT FOUND: ', _p6._0._0);
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				} else {
+					var _p8 = A2(_elm_lang$core$Debug$log, 'ID WAS FOUND: ', 'REFOCUS');
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'Save':
+				var _p9 = _elm_lang$dom$Dom$focus('inputOfType');
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						sections: A2(
+							_elm_lang$core$Basics_ops['++'],
+							model.sections,
+							{
+								ctor: '::',
+								_0: model.newSection,
+								_1: {ctor: '[]'}
+							}),
+						newSection: _user$project$Main$initSection,
+						editingSection: false
+					});
+				var _p10 = A2(_elm_lang$core$Debug$log, 'debug 79:', newModel);
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'SetSectionType':
+				var section = model.newSection;
+				var newSection = _elm_lang$core$Native_Utils.update(
+					section,
+					{ofType: _p2._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{newSection: newSection, editingSection: true});
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				var section = model.newSection;
+				var newSection = _elm_lang$core$Native_Utils.update(
+					section,
+					{body: _p2._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{newSection: newSection, editingSection: true});
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$Main$FocusOn = function (a) {
+	return {ctor: 'FocusOn', _0: a};
+};
+var _user$project$Main$Edit = function (a) {
+	return {ctor: 'Edit', _0: a};
+};
+var _user$project$Main$singleSection = function (section) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(section.ofType),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_user$project$Main$Edit(section)),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(section.body),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$rightSide = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('rightSide fl w-100 w-50-ns pa2'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('outline bg-white pv4 pa2'),
+					_1: {ctor: '[]'}
+				},
+				A2(
+					_elm_lang$core$List$map,
+					_user$project$Main$singleSection,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						model.sections,
+						{
+							ctor: '::',
+							_0: model.newSection,
+							_1: {ctor: '[]'}
+						}))),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('body mw9 center ph3-n2'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('cf ph2-ns'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _user$project$Main$leftSide(model),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Main$rightSide(model),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('output'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$Main$output(model),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Main$main = _elm_lang$html$Html$program(
+	{
+		init: _user$project$Main$init,
+		view: _user$project$Main$view,
+		update: _user$project$Main$update,
+		subscriptions: function (_p11) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
+var _user$project$Main$Noop = {ctor: 'Noop'};

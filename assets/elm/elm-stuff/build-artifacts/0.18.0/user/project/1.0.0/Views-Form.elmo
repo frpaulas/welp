@@ -1,0 +1,72 @@
+var _user$project$Views_Form$control = F3(
+	function (element, attributes, children) {
+		return A2(
+			_elm_lang$html$Html$fieldset,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('form-group'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					element,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('form-control'),
+						_1: attributes
+					},
+					children),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_Form$viewErrors = function (errors) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('error-messages'),
+			_1: {ctor: '[]'}
+		},
+		A2(
+			_elm_lang$core$List$map,
+			function (_p0) {
+				var _p1 = _p0;
+				return A2(
+					_elm_lang$html$Html$li,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(_p1._1),
+						_1: {ctor: '[]'}
+					});
+			},
+			errors));
+};
+var _user$project$Views_Form$textarea = _user$project$Views_Form$control(_elm_lang$html$Html$textarea);
+var _user$project$Views_Form$input = function (attrs) {
+	return A2(
+		_user$project$Views_Form$control,
+		_elm_lang$html$Html$input,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$type_('text'),
+				_1: {ctor: '[]'}
+			},
+			attrs));
+};
+var _user$project$Views_Form$password = function (attrs) {
+	return A2(
+		_user$project$Views_Form$control,
+		_elm_lang$html$Html$input,
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$type_('password'),
+				_1: {ctor: '[]'}
+			},
+			attrs));
+};

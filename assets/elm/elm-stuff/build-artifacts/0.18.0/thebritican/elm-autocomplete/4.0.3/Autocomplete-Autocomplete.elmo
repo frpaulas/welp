@@ -1,0 +1,432 @@
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$sectionConfig = function (_p0) {
+	var _p1 = _p0;
+	return {toId: _p1.toId, getData: _p1.getData, ul: _p1.ul, li: _p1.li};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewWithSectionsConfig = function (_p2) {
+	var _p3 = _p2;
+	return {toId: _p3.toId, ul: _p3.ul, li: _p3.li, section: _p3.section};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewConfig = function (_p4) {
+	var _p5 = _p4;
+	return {toId: _p5.toId, ul: _p5.ul, li: _p5.li};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$getPrevious = F3(
+	function (id, selectedId, resultId) {
+		return _elm_lang$core$Native_Utils.eq(selectedId, id) ? _elm_lang$core$Maybe$Just(id) : (_elm_lang$core$Native_Utils.eq(
+			A2(_elm_lang$core$Maybe$withDefault, '', resultId),
+			id) ? _elm_lang$core$Maybe$Just(selectedId) : resultId);
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$getNextItemId = F2(
+	function (ids, selectedId) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			selectedId,
+			A3(
+				_elm_lang$core$List$foldl,
+				_thebritican$elm_autocomplete$Autocomplete_Autocomplete$getPrevious(selectedId),
+				_elm_lang$core$Maybe$Nothing,
+				ids));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$getPreviousItemId = F2(
+	function (ids, selectedId) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			selectedId,
+			A3(
+				_elm_lang$core$List$foldr,
+				_thebritican$elm_autocomplete$Autocomplete_Autocomplete$getPrevious(selectedId),
+				_elm_lang$core$Maybe$Nothing,
+				ids));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$navigateWithKey = F3(
+	function (code, ids, maybeId) {
+		var _p6 = code;
+		switch (_p6) {
+			case 38:
+				return A2(
+					_elm_lang$core$Maybe$map,
+					_thebritican$elm_autocomplete$Autocomplete_Autocomplete$getPreviousItemId(ids),
+					maybeId);
+			case 40:
+				return A2(
+					_elm_lang$core$Maybe$map,
+					_thebritican$elm_autocomplete$Autocomplete_Autocomplete$getNextItemId(ids),
+					maybeId);
+			default:
+				return maybeId;
+		}
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetMouseStateWithId = F3(
+	function (separateSelections, id, state) {
+		return separateSelections ? {
+			key: state.key,
+			mouse: _elm_lang$core$Maybe$Just(id)
+		} : {
+			key: _elm_lang$core$Maybe$Just(id),
+			mouse: _elm_lang$core$Maybe$Just(id)
+		};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$updateConfig = function (_p7) {
+	var _p8 = _p7;
+	return {toId: _p8.toId, onKeyDown: _p8.onKeyDown, onTooLow: _p8.onTooLow, onTooHigh: _p8.onTooHigh, onMouseEnter: _p8.onMouseEnter, onMouseLeave: _p8.onMouseLeave, onMouseClick: _p8.onMouseClick, separateSelections: _p8.separateSelections};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$empty = {key: _elm_lang$core$Maybe$Nothing, mouse: _elm_lang$core$Maybe$Nothing};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$reset = F2(
+	function (_p10, _p9) {
+		var _p11 = _p10;
+		var _p12 = _p9;
+		return _p11.separateSelections ? {key: _elm_lang$core$Maybe$Nothing, mouse: _p12.mouse} : _thebritican$elm_autocomplete$Autocomplete_Autocomplete$empty;
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToFirst = F3(
+	function (config, data, state) {
+		var _p13 = config;
+		var toId = _p13.toId;
+		var separateSelections = _p13.separateSelections;
+		var setFirstItem = F2(
+			function (datum, newState) {
+				return _elm_lang$core$Native_Utils.update(
+					newState,
+					{
+						key: _elm_lang$core$Maybe$Just(
+							toId(datum))
+					});
+			});
+		var _p14 = _elm_lang$core$List$head(data);
+		if (_p14.ctor === 'Nothing') {
+			return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$empty;
+		} else {
+			var _p15 = _p14._0;
+			return separateSelections ? A2(
+				setFirstItem,
+				_p15,
+				A2(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$reset, config, state)) : A2(setFirstItem, _p15, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$empty);
+		}
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToFirstItem = F4(
+	function (config, data, howManyToShow, state) {
+		return A3(
+			_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToFirst,
+			config,
+			A2(_elm_lang$core$List$take, howManyToShow, data),
+			state);
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToLastItem = F4(
+	function (config, data, howManyToShow, state) {
+		var reversedData = _elm_lang$core$List$reverse(
+			A2(_elm_lang$core$List$take, howManyToShow, data));
+		return A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetToFirst, config, reversedData, state);
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$State = F2(
+	function (a, b) {
+		return {key: a, mouse: b};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$UpdateConfig = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {onKeyDown: a, onTooLow: b, onTooHigh: c, onMouseEnter: d, onMouseLeave: e, onMouseClick: f, toId: g, separateSelections: h};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$HtmlDetails = F2(
+	function (a, b) {
+		return {attributes: a, children: b};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$ViewConfig = F3(
+	function (a, b, c) {
+		return {toId: a, ul: b, li: c};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$ViewWithSectionsConfig = F4(
+	function (a, b, c, d) {
+		return {toId: a, ul: b, li: c, section: d};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$SectionConfig = F4(
+	function (a, b, c, d) {
+		return {toId: a, getData: b, ul: c, li: d};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$SectionNode = F3(
+	function (a, b, c) {
+		return {nodeType: a, attributes: b, children: c};
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$NoOp = {ctor: 'NoOp'};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Attributes$map,
+		function (_p16) {
+			return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$NoOp;
+		},
+		msg);
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseClick = function (a) {
+	return {ctor: 'MouseClick', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseLeave = function (a) {
+	return {ctor: 'MouseLeave', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseEnter = function (a) {
+	return {ctor: 'MouseEnter', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewData = F3(
+	function (_p18, _p17, data) {
+		var _p19 = _p18;
+		var _p20 = _p17;
+		var id = _p19.toId(data);
+		var isSelected = function (maybeId) {
+			var _p21 = maybeId;
+			if (_p21.ctor === 'Just') {
+				return _elm_lang$core$Native_Utils.eq(_p21._0, id);
+			} else {
+				return false;
+			}
+		};
+		var listItemData = A3(
+			_p19.li,
+			isSelected(_p20.key),
+			isSelected(_p20.mouse),
+			data);
+		var customAttributes = A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, listItemData.attributes);
+		var customLiAttr = A2(
+			_elm_lang$core$List$append,
+			customAttributes,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onMouseEnter(
+					_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseEnter(id)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onMouseLeave(
+						_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseLeave(id)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseClick(id)),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+		return A2(
+			_elm_lang$html$Html$li,
+			customLiAttr,
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$html$Html$map(
+					function (html) {
+						return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$NoOp;
+					}),
+				listItemData.children));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewSection = F3(
+	function (config, state, section) {
+		var getKeyedItems = function (datum) {
+			return {
+				ctor: '_Tuple2',
+				_0: config.toId(datum),
+				_1: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewData, config, state, datum)
+			};
+		};
+		var viewItemList = A2(
+			_elm_lang$html$Html_Keyed$ul,
+			A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, config.ul),
+			A2(
+				_elm_lang$core$List$map,
+				getKeyedItems,
+				config.section.getData(section)));
+		var sectionNode = config.section.li(section);
+		var attributes = A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, sectionNode.attributes);
+		var customChildren = A2(
+			_elm_lang$core$List$map,
+			_elm_lang$html$Html$map(
+				function (html) {
+					return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$NoOp;
+				}),
+			sectionNode.children);
+		var children = A2(
+			_elm_lang$core$List$append,
+			customChildren,
+			{
+				ctor: '::',
+				_0: viewItemList,
+				_1: {ctor: '[]'}
+			});
+		return A2(
+			_elm_lang$html$Html$li,
+			attributes,
+			{
+				ctor: '::',
+				_0: A3(_elm_lang$html$Html$node, sectionNode.nodeType, attributes, children),
+				_1: {ctor: '[]'}
+			});
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewWithSections = F4(
+	function (config, howManyToShow, state, sections) {
+		var getKeyedItems = function (section) {
+			return {
+				ctor: '_Tuple2',
+				_0: config.section.toId(section),
+				_1: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewSection, config, state, section)
+			};
+		};
+		return A2(
+			_elm_lang$html$Html_Keyed$ul,
+			A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, config.section.ul),
+			A2(_elm_lang$core$List$map, getKeyedItems, sections));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewItem = F3(
+	function (_p23, _p22, data) {
+		var _p24 = _p23;
+		var _p25 = _p22;
+		var id = _p24.toId(data);
+		var isSelected = function (maybeId) {
+			var _p26 = maybeId;
+			if (_p26.ctor === 'Just') {
+				return _elm_lang$core$Native_Utils.eq(_p26._0, id);
+			} else {
+				return false;
+			}
+		};
+		var listItemData = A3(
+			_p24.li,
+			isSelected(_p25.key),
+			isSelected(_p25.mouse),
+			data);
+		var customAttributes = A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, listItemData.attributes);
+		var customLiAttr = A2(
+			_elm_lang$core$List$append,
+			customAttributes,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onMouseEnter(
+					_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseEnter(id)),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onMouseLeave(
+						_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseLeave(id)),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_thebritican$elm_autocomplete$Autocomplete_Autocomplete$MouseClick(id)),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+		return A2(
+			_elm_lang$html$Html$li,
+			customLiAttr,
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$html$Html$map(
+					function (html) {
+						return _thebritican$elm_autocomplete$Autocomplete_Autocomplete$NoOp;
+					}),
+				listItemData.children));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewList = F4(
+	function (config, howManyToShow, state, data) {
+		var getKeyedItems = function (datum) {
+			return {
+				ctor: '_Tuple2',
+				_0: config.toId(datum),
+				_1: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewItem, config, state, datum)
+			};
+		};
+		var customUlAttr = A2(_elm_lang$core$List$map, _thebritican$elm_autocomplete$Autocomplete_Autocomplete$mapNeverToMsg, config.ul);
+		return A2(
+			_elm_lang$html$Html_Keyed$ul,
+			customUlAttr,
+			A2(
+				_elm_lang$core$List$map,
+				getKeyedItems,
+				A2(_elm_lang$core$List$take, howManyToShow, data)));
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$view = F4(
+	function (config, howManyToShow, state, data) {
+		return A4(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$viewList, config, howManyToShow, state, data);
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$WentTooHigh = {ctor: 'WentTooHigh'};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$WentTooLow = {ctor: 'WentTooLow'};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$update = F5(
+	function (config, msg, howManyToShow, state, data) {
+		update:
+		while (true) {
+			var _p27 = msg;
+			switch (_p27.ctor) {
+				case 'KeyDown':
+					var _p28 = _p27._0;
+					var boundedList = A2(
+						_elm_lang$core$List$take,
+						howManyToShow,
+						A2(_elm_lang$core$List$map, config.toId, data));
+					var newKey = A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$navigateWithKey, _p28, boundedList, state.key);
+					if (_elm_lang$core$Native_Utils.eq(newKey, state.key) && _elm_lang$core$Native_Utils.eq(_p28, 38)) {
+						var _v15 = config,
+							_v16 = _thebritican$elm_autocomplete$Autocomplete_Autocomplete$WentTooHigh,
+							_v17 = howManyToShow,
+							_v18 = state,
+							_v19 = data;
+						config = _v15;
+						msg = _v16;
+						howManyToShow = _v17;
+						state = _v18;
+						data = _v19;
+						continue update;
+					} else {
+						if (_elm_lang$core$Native_Utils.eq(newKey, state.key) && _elm_lang$core$Native_Utils.eq(_p28, 40)) {
+							var _v20 = config,
+								_v21 = _thebritican$elm_autocomplete$Autocomplete_Autocomplete$WentTooLow,
+								_v22 = howManyToShow,
+								_v23 = state,
+								_v24 = data;
+							config = _v20;
+							msg = _v21;
+							howManyToShow = _v22;
+							state = _v23;
+							data = _v24;
+							continue update;
+						} else {
+							if (config.separateSelections) {
+								return {
+									ctor: '_Tuple2',
+									_0: _elm_lang$core$Native_Utils.update(
+										state,
+										{key: newKey}),
+									_1: A2(config.onKeyDown, _p28, newKey)
+								};
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: {key: newKey, mouse: newKey},
+									_1: A2(config.onKeyDown, _p28, newKey)
+								};
+							}
+						}
+					}
+				case 'WentTooLow':
+					return {ctor: '_Tuple2', _0: state, _1: config.onTooLow};
+				case 'WentTooHigh':
+					return {ctor: '_Tuple2', _0: state, _1: config.onTooHigh};
+				case 'MouseEnter':
+					var _p29 = _p27._0;
+					return {
+						ctor: '_Tuple2',
+						_0: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetMouseStateWithId, config.separateSelections, _p29, state),
+						_1: config.onMouseEnter(_p29)
+					};
+				case 'MouseLeave':
+					var _p30 = _p27._0;
+					return {
+						ctor: '_Tuple2',
+						_0: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetMouseStateWithId, config.separateSelections, _p30, state),
+						_1: config.onMouseLeave(_p30)
+					};
+				case 'MouseClick':
+					var _p31 = _p27._0;
+					return {
+						ctor: '_Tuple2',
+						_0: A3(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$resetMouseStateWithId, config.separateSelections, _p31, state),
+						_1: config.onMouseClick(_p31)
+					};
+				default:
+					return {ctor: '_Tuple2', _0: state, _1: _elm_lang$core$Maybe$Nothing};
+			}
+		}
+	});
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$KeyDown = function (a) {
+	return {ctor: 'KeyDown', _0: a};
+};
+var _thebritican$elm_autocomplete$Autocomplete_Autocomplete$subscription = _elm_lang$keyboard$Keyboard$downs(_thebritican$elm_autocomplete$Autocomplete_Autocomplete$KeyDown);
