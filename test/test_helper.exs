@@ -1,4 +1,3 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(Wlp.Repo, :manual)
-
+Ecto.Adapters.SQL.Sandbox.mode(Welp.Repo, :manual)

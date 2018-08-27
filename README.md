@@ -1,4 +1,4 @@
-# Wlp
+# Welp
 
 To start your Phoenix server:
 

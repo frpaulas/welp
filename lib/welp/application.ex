@@ -1,4 +1,4 @@
-defmodule Wlp.Application do
+defmodule Welp.Application do
   use Application
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -9,23 +9,23 @@ defmodule Wlp.Application do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(Wlp.Repo, []),
+      supervisor(Welp.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(WlpWeb.Endpoint, []),
-      # Start your own worker by calling: Wlp.Worker.start_link(arg1, arg2, arg3)
-      # worker(Wlp.Worker, [arg1, arg2, arg3]),
+      supervisor(WelpWeb.Endpoint, [])
+      # Start your own worker by calling: Welp.Worker.start_link(arg1, arg2, arg3)
+      # worker(Welp.Worker, [arg1, arg2, arg3]),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Wlp.Supervisor]
+    opts = [strategy: :one_for_one, name: Welp.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    WlpWeb.Endpoint.config_change(changed, removed)
+    WelpWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

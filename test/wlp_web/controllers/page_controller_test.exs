@@ -1,8 +1,8 @@
-defmodule WlpWeb.PageControllerTest do
-  use WlpWeb.ConnCase
+defmodule WelpWeb.PageControllerTest do
+  use WelpWeb.ConnCase
 
   test "GET /", %{conn: conn} do
-    conn = get conn, "/"
+    conn = get(conn, "/")
     assert html_response(conn, 200) =~ "Welcome to Phoenix!"
   end
 end

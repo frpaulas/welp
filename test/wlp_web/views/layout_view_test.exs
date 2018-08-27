@@ -1,3 +1,3 @@
-defmodule WlpWeb.LayoutViewTest do
-  use WlpWeb.ConnCase, async: true
+defmodule WelpWeb.LayoutViewTest do
+  use WelpWeb.ConnCase, async: true
 end

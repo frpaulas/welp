@@ -1,4 +1,4 @@
-defmodule Wlp.DataCase do
+defmodule Welp.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule Wlp.DataCase do
 
   using do
     quote do
-      alias Wlp.Repo
+      alias Welp.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Wlp.DataCase
+      import Welp.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wlp.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Welp.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Wlp.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Welp.Repo, {:shared, self()})
     end
 
     :ok

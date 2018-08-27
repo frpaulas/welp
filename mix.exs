@@ -1,9 +1,9 @@
-defmodule Wlp.Mixfile do
+defmodule Welp.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :wlp,
+      app: :welp,
       version: "0.0.1",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Wlp.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Wlp.Application, []},
+      mod: {Welp.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

@@ -8,14 +8,14 @@ use Mix.Config
 # file or create a script for recreating it, since it's
 # kept out of version control and might be hard to recover
 # or recreate for your teammates (or yourself later on).
-config :wlp, WlpWeb.Endpoint,
+config :welp, WelpWeb.Endpoint,
   secret_key_base: "y8KmhCFH0aDu19CDmsFpSo6qtrz5rxeLDByOGCUKkflgKO3P0gZuHiAu1VGiuEvU"
 
 # Configure your database
-config :wlp, Wlp.Repo,
+config :welp, Welp.Repo,
   adapter: Ecto.Adapters.Postgres,
   hostname: "legereme.com",
   username: "frpaulas",
   password: "Barafundle1570",
-  database: "legereme",
+  database: "welp",
   pool_size: 10

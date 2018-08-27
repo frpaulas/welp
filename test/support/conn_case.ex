@@ -1,4 +1,4 @@
-defmodule WlpWeb.ConnCase do
+defmodule WelpWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -19,20 +19,20 @@ defmodule WlpWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import WlpWeb.Router.Helpers
+      import WelpWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint WlpWeb.Endpoint
+      @endpoint WelpWeb.Endpoint
     end
   end
-
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wlp.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Welp.Repo)
+
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Wlp.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Welp.Repo, {:shared, self()})
     end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
 end

@@ -6,8 +6,8 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :wlp, WlpWeb.Endpoint,
-  http: [port: 5000],
+config :welp, WelpWeb.Endpoint,
+  http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -37,13 +37,13 @@ config :wlp, WlpWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :wlp, WlpWeb.Endpoint,
+config :welp, WelpWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/wlp_web/views/.*(ex)$},
-      ~r{lib/wlp_web/templates/.*(eex)$}
+      ~r{lib/welp_web/views/.*(ex)$},
+      ~r{lib/welp_web/templates/.*(eex)$}
     ]
   ]
 
@@ -55,10 +55,10 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :wlp, Wlp.Repo,
+config :welp, Welp.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "wlp_dev",
-  hostname: "localhost",
+  username: "frpaulas",
+  password: "Barafundle1570",
+  database: "welp",
+  hostname: "legereme.com",
   pool_size: 10

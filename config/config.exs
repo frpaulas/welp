@@ -6,16 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :wlp,
-  ecto_repos: [Wlp.Repo]
+config :welp,
+  ecto_repos: [Welp.Repo]
 
 # Configures the endpoint
-config :wlp, WlpWeb.Endpoint,
+config :welp, WelpWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "+OG4YVHpQrtS8rCDxgNavpCpbDTQQgFrdZrMZhD+cVav7P2kd6FHzFjkgrk3bJU7",
-  render_errors: [view: WlpWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Wlp.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  render_errors: [view: WelpWeb.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Welp.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,4 +23,4 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

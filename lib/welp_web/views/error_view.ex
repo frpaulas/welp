@@ -1,5 +1,5 @@
-defmodule WlpWeb.ErrorView do
-  use WlpWeb, :view
+defmodule WelpWeb.ErrorView do
+  use WelpWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

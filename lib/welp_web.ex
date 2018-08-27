@@ -1,12 +1,12 @@
-defmodule WlpWeb do
+defmodule WelpWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use WlpWeb, :controller
-      use WlpWeb, :view
+      use WelpWeb, :controller
+      use WelpWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,17 +19,18 @@ defmodule WlpWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: WlpWeb
+      use Phoenix.Controller, namespace: WelpWeb
       import Plug.Conn
-      import WlpWeb.Router.Helpers
-      import WlpWeb.Gettext
+      import WelpWeb.Router.Helpers
+      import WelpWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/wlp_web/templates",
-                        namespace: WlpWeb
+      use Phoenix.View,
+        root: "lib/welp_web/templates",
+        namespace: WelpWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
@@ -37,9 +38,9 @@ defmodule WlpWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import WlpWeb.Router.Helpers
-      import WlpWeb.ErrorHelpers
-      import WlpWeb.Gettext
+      import WelpWeb.Router.Helpers
+      import WelpWeb.ErrorHelpers
+      import WelpWeb.Gettext
     end
   end
 
@@ -54,7 +55,7 @@ defmodule WlpWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import WlpWeb.Gettext
+      import WelpWeb.Gettext
     end
   end
 

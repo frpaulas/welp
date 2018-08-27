@@ -1,4 +1,4 @@
-defmodule WlpWeb.ChannelCase do
+defmodule WelpWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,17 +21,17 @@ defmodule WlpWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint WlpWeb.Endpoint
+      @endpoint WelpWeb.Endpoint
     end
   end
-
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Wlp.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Welp.Repo)
+
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Wlp.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Welp.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end
