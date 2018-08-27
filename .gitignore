@@ -3,3 +3,7 @@
 erl_crash.dump
 *.ez
 config/prod.secret.exs
+mix.lock
+priv/static/js/app.js
+pric/static/app.js.map
+.deliver/releases/

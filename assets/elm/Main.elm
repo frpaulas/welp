@@ -4,9 +4,9 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onSubmit, onClick)
 import Views.Form as Form
-import Json.Decode exposing (string, int, list, Decoder, at)
-import Json.Decode.Pipeline exposing (decode, required)
-import Http
+-- import Json.Decode exposing (string, int, list, Decoder, at)
+-- import Json.Decode.Pipeline exposing (decode, required)
+-- import Http
 import Dom
 import Task
 import Autocomplete

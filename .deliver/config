@@ -1,0 +1,18 @@
+APP='welp'
+
+BUILD_HOST='159.65.34.237'
+BUILD_USER='frpaulas'
+BUILD_AT='/home/frpaulas/build/welp'
+
+PRODUCTION_HOSTS='159.65.34.237'
+PRODUCTION_USER='frpaulas'
+DELIVER_TO='/home/frpaulas/build/welp'
+
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path='/home/frpaulas/build/welp/prod.secret.exs'
+  if [ "$TARGET_MIX_ENV" = "PROD" ]; then
+    __sync_remote "
+      ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
+    "
+  fi
+  }
