@@ -7,3 +7,4 @@ mix.lock
 priv/static/js/app.js
 pric/static/app.js.map
 .deliver/releases/
+assets/package-lock.json
