@@ -52,8 +52,8 @@ exports.config = {
       elmFolder: "elm",
       makeParameteres: ["--debug"], // remove when deploying
       mainModules: ["Main.elm"],
-      executablePath: '/Users/paulsutcliffe/Documents/W/welp/assets/node_modules/elm/binwrappers',
-      outputFolder: "../vendor/js",
+      // executablePath: '../assets/node_modules/elm/binwrappers',
+      outputFolder: "../js",
       makeParameters: ['--warn']
     }
   },

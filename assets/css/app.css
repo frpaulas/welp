@@ -3,7 +3,7 @@
 
 .wtf {}
 
-.heaader {
+.header {
   background-color: #f5f5f5;
 }
 
@@ -25,9 +25,36 @@
 .rubric {
   color: darkred;
   font-style: italic;
-  font-size: 1.1em;
+  font-size: 0.95em;
+}
+
+.reference {
+  color: black;
+  font-style: italic;
+  font-size: 0.95em
 }
 
 .plaintext {
-  font-size: 1.3em;
+  font-size: 1.1em;
+}
+
+.sectionTitle {
+  color: black;
+  font-size: 1.6em;
+  text-align: left
+}
+
+.indent {
+  margin-left: 2em;
+}
+
+.rightSide {
+}
+
+.formattedPage {  
+  height: 50em;
+  background-color: lightgrey;
+  z-index: 9;
+  overflow-y: scroll;
+
 }

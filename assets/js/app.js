@@ -20,5 +20,20 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
+
+import Elm from './main'
 const elmDiv = document.getElementById('elm-main')
   , elmApp = Elm.Main.embed(elmDiv)
+  , port = elmApp.ports
+  ;
+
+var lastSelection = "";
+
+port.requestSelection.subscribe( function(ofType) {
+  var selObj = window.getSelection()
+  var selRange = selObj.getRangeAt(0)
+  var selText = selObj.toString()
+  if (selText.length > 0) {
+    port.requestedSelection.send({ofType: ofType, text: selText})
+  }
+})
