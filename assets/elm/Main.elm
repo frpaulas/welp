@@ -56,17 +56,31 @@ type alias Selection =
 type alias Model =
   { json: List String
   , formattedPage: String
+  , readingsOpen: Bool
   }
 
 initModel : Model
 initModel = 
   { json = []
   , formattedPage = ""
+  , readingsOpen = False
   }
 
 init : (Model, Cmd Msg)
 init = 
   (initModel, Cmd.none)
+
+type Reading
+  = MP1
+  | MP2
+  | MPsalms
+  | EP1
+  | EP2
+  | EPsalms
+  | OT
+  | PS
+  | NT
+  | GS
 
 
 -- UPDATE --
@@ -77,6 +91,8 @@ type Msg
   | Save
   | SetBody String
   | SetSectionType String
+  | SetReading Reading
+  | ShowReading
   | RequestedSelection Selection
 
 
@@ -92,25 +108,27 @@ update msg model =
 
     SetBody page ->
       let
-        formattedPage =
-          model.formattedPage
-          |> replace All (regex "\n") (\_ -> "<br />")
-          |> replace All (regex "<title>") (\_ -> "<div class=\"title\">")
-          |> replace All (regex "</title>") (\_ -> "</div>")
-          |> replace All (regex "<sectionTitle>") (\_ -> "<div class=\"sectionTitle\">")
-          |> replace All (regex "</sectionTitle>") (\_ -> "</div>")
-          |> replace All (regex "<rubric>") (\_ -> "<div class=\"rubric\">")
-          |> replace All (regex "</rubric>") (\_ -> "</div>")
-          |> replace All (regex "<reference>") (\_ -> "<span class=\"reference\">")
-          |> replace All (regex "</reference>") (\_ -> "</span>")
-          |> replace All (regex "<plaintext>") (\_ -> "<div class=\"plaintext\">")
-          |> replace All (regex "</plaintext>") (\_ -> "</div>")
-          |> replace All (regex "<indent>") (\_ -> "<span class=\"indent\">")
-          |> replace All (regex "</indent>") (\_ -> "</span>")
+        _ = Debug.log "SET BODY: " page
+--        formattedPage =
+--          model.formattedPage
+--          |> replace All (regex "\n") (\_ -> "<br />")
+--          |> replace All (regex "<title>") (\_ -> "<div class=\"title\">")
+--          |> replace All (regex "</title>") (\_ -> "</div>")
+--          |> replace All (regex "<sectionTitle>") (\_ -> "<div class=\"sectionTitle\">")
+--          |> replace All (regex "</sectionTitle>") (\_ -> "</div>")
+--          |> replace All (regex "<rubric>") (\_ -> "<div class=\"rubric\">")
+--          |> replace All (regex "</rubric>") (\_ -> "</div>")
+--          |> replace All (regex "<reference>") (\_ -> "<span class=\"reference\">")
+--          |> replace All (regex "</reference>") (\_ -> "</span>")
+--          |> replace All (regex "<plaintext>") (\_ -> "<div class=\"plaintext\">")
+--          |> replace All (regex "</plaintext>") (\_ -> "</div>")
+--          |> replace All (regex "<indent>") (\_ -> "<span class=\"indent\">")
+--          |> replace All (regex "</indent>") (\_ -> "</span>")
 
       in
+      (model, Cmd.none)
           
-      ({model | formattedPage = page}, Cmd.none)
+--      ({model | formattedPage = page}, Cmd.none)
 
     SetSectionType ofType ->
       (model, Cmd.batch[ requestSelection ofType, Cmd.none ])
@@ -120,6 +138,16 @@ update msg model =
         _ = Debug.log "SAVE: " "DO SOME SAVING HERE..."
       in
         (model, Cmd.none)
+
+    SetReading ofType ->
+      let
+        newModel = {model | readingsOpen = False}
+      in
+      (newModel, Cmd.none)
+          
+
+    ShowReading ->
+      ({model | readingsOpen = not model.readingsOpen}, Cmd.none)
 
     RequestedSelection selection ->
       let
@@ -136,7 +164,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div [ class ""]
-  [ typeMenu
+  [ typeMenu model
+  , readingOptions model
   , leftSide model
   , div [ id "preview", class "fl w-30 pa2 ba black b--white-70" ] [ ]
   , output model
@@ -150,22 +179,34 @@ view model =
 --     , div [class "output"] [ output model ]
 --     ]
 
-typeMenu : Html Msg
-typeMenu =
+typeMenu : Model -> Html Msg
+typeMenu model =
   let
     btnClass = class "btn btn-sm pull-xs-right btn-primary w-80"
+    inactive = class "btn btn-sm pull-xs-right btn-primary w-80 o-50"
+    danger = class "btn btn-sm pull-xs-right btn-primary w-80 hover-bg-dark-red"
+    showClass = 
+        if model.readingsOpen then
+          class "dn"
+        else
+          class "fl w-100 w-10-ns pa2"
       
   in
       
-  div [class "fl w-100 w-10-ns pa2"]
-      [ button [btnClass, onClick (SetSectionType "title")] [text "Title"]
-      , button [btnClass, onClick (SetSectionType "sectionTitle")] [text "Section"]
-      , button [btnClass, onClick (SetSectionType "rubric")] [text "Rubric"]
-      , button [btnClass, onClick (SetSectionType "reference")] [text "Reference"]
-      , button [btnClass, onClick (SetSectionType "plaintext")] [text "Plain text"]
-      , button [btnClass, onClick (SetSectionType "indent")] [text "Indent"]
-      , button [btnClass, onClick (SetSectionType "scripture")] [text "Scripture"]
-      , button [btnClass, onClick (SetSectionType "versicals")] [text "Versicals"]
+  div [ showClass ]
+      [ button [inactive, onClick (SetSectionType "meta")] [text "Meta Data"]
+      , button [btnClass, onClick (SetSectionType "title")] [text "Title ^T"]
+      , button [btnClass, onClick (SetSectionType "sectionTitle")] [text "Section ^C"]
+      , button [btnClass, onClick (SetSectionType "rubric")] [text "Rubric ^R"]
+      , button [btnClass, onClick (SetSectionType "reference")] [text "Reference ^F"]
+      , button [btnClass, onClick (SetSectionType "plaintext")] [text "Plain text ↩"]
+      , button [btnClass, onClick (SetSectionType "indent")] [text "Indent ^I"]
+      , button [btnClass, onClick (SetSectionType "scripture")] [text "Scripture ^S"]
+      , button [inactive, onClick (SetSectionType "versicals")] [text "Versicals ^V"]
+      , button [inactive, onClick (SetSectionType "psalm")] [text "Psalm ^P"]
+      , button [inactive, onClick (SetSectionType "psalm")] [text "Call/Resp ^R"]
+      , button [btnClass, onClick ShowReading ] [text "Reading"]
+      , button [danger, onClick (SetSectionType "delete")] [text "Delete"]
       ]
 
 leftSide : Model -> Html Msg
@@ -180,12 +221,12 @@ viewForm model =
             [ id "raw_office"
             , placeholder "Enter Text"
             , attribute "rows" "30"
-            -- , onInput SetBody
+            , onInput SetBody
             -- , value model.formattedPage
             -- , property  "val" <| string model.page
             ]
             []
-        , button [ class "btn btn-lg pull-xs-right btn-primary" ]
+        , button [ class "btn btn-lg pull-xs-right btn-primary o-50" ]
             [ text "Save" ]
         ]
 
@@ -239,6 +280,29 @@ tagify select model =
     model.formattedPage
     
 
+readingOptions : Model -> Html Msg
+readingOptions model =
+  let
+    btnClass = class "btn btn-sm pull-xs-right btn-primary w-80"
+    showClass = if  model.readingsOpen then
+        class "dib fl w-100 w-10-ns pa2 z-5"
+      else
+        class "dn"
+  in
+      
+  div [ showClass ]
+      [ button [btnClass, onClick (SetReading MP1)] [text "MP Lesson 1"]
+      , button [btnClass, onClick (SetReading MP2)] [text "MP Lesson 2"]
+      , button [btnClass, onClick (SetReading MPsalms)] [text "MP Psalms"]
+      , button [btnClass, onClick (SetReading EP1)] [text "EP Lesson 1"]
+      , button [btnClass, onClick (SetReading EP2)] [text "EP Lesson 2"]
+      , button [btnClass, onClick (SetReading EPsalms)] [text "EP Psalms"]
+      , button [btnClass, onClick (SetReading OT)] [text "Euch. OT"]
+      , button [btnClass, onClick (SetReading NT)] [text "Euch. NT"]
+      , button [btnClass, onClick (SetReading PS)] [text "Euch. Psalm"]
+      , button [btnClass, onClick (SetReading GS)] [text "Euch. Gospel"]
+      , button [btnClass, onClick ShowReading] [text "CANCEL"]
+      ]
 
 
 

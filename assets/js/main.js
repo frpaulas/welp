@@ -5757,143 +5757,6 @@ var _elm_lang$core$Platform$Task = {ctor: 'Task'};
 var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 var _elm_lang$core$Platform$Router = {ctor: 'Router'};
 
-//import Maybe, Native.List //
-
-var _elm_lang$core$Native_Regex = function() {
-
-function escape(str)
-{
-	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
-function caseInsensitive(re)
-{
-	return new RegExp(re.source, 'gi');
-}
-function regex(raw)
-{
-	return new RegExp(raw, 'g');
-}
-
-function contains(re, string)
-{
-	return string.match(re) !== null;
-}
-
-function find(n, re, str)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	var out = [];
-	var number = 0;
-	var string = str;
-	var lastIndex = re.lastIndex;
-	var prevLastIndex = -1;
-	var result;
-	while (number++ < n && (result = re.exec(string)))
-	{
-		if (prevLastIndex === re.lastIndex) break;
-		var i = result.length - 1;
-		var subs = new Array(i);
-		while (i > 0)
-		{
-			var submatch = result[i];
-			subs[--i] = submatch === undefined
-				? _elm_lang$core$Maybe$Nothing
-				: _elm_lang$core$Maybe$Just(submatch);
-		}
-		out.push({
-			match: result[0],
-			submatches: _elm_lang$core$Native_List.fromArray(subs),
-			index: result.index,
-			number: number
-		});
-		prevLastIndex = re.lastIndex;
-	}
-	re.lastIndex = lastIndex;
-	return _elm_lang$core$Native_List.fromArray(out);
-}
-
-function replace(n, re, replacer, string)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	var count = 0;
-	function jsReplacer(match)
-	{
-		if (count++ >= n)
-		{
-			return match;
-		}
-		var i = arguments.length - 3;
-		var submatches = new Array(i);
-		while (i > 0)
-		{
-			var submatch = arguments[i];
-			submatches[--i] = submatch === undefined
-				? _elm_lang$core$Maybe$Nothing
-				: _elm_lang$core$Maybe$Just(submatch);
-		}
-		return replacer({
-			match: match,
-			submatches: _elm_lang$core$Native_List.fromArray(submatches),
-			index: arguments[arguments.length - 2],
-			number: count
-		});
-	}
-	return string.replace(re, jsReplacer);
-}
-
-function split(n, re, str)
-{
-	n = n.ctor === 'All' ? Infinity : n._0;
-	if (n === Infinity)
-	{
-		return _elm_lang$core$Native_List.fromArray(str.split(re));
-	}
-	var string = str;
-	var result;
-	var out = [];
-	var start = re.lastIndex;
-	var restoreLastIndex = re.lastIndex;
-	while (n--)
-	{
-		if (!(result = re.exec(string))) break;
-		out.push(string.slice(start, result.index));
-		start = re.lastIndex;
-	}
-	out.push(string.slice(start));
-	re.lastIndex = restoreLastIndex;
-	return _elm_lang$core$Native_List.fromArray(out);
-}
-
-return {
-	regex: regex,
-	caseInsensitive: caseInsensitive,
-	escape: escape,
-
-	contains: F2(contains),
-	find: F3(find),
-	replace: F4(replace),
-	split: F3(split)
-};
-
-}();
-
-var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
-var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
-var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
-var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
-var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
-var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
-var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
-var _elm_lang$core$Regex$Match = F4(
-	function (a, b, c, d) {
-		return {match: a, submatches: b, index: c, number: d};
-	});
-var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
-var _elm_lang$core$Regex$AtMost = function (a) {
-	return {ctor: 'AtMost', _0: a};
-};
-var _elm_lang$core$Regex$All = {ctor: 'All'};
-
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
 
@@ -7932,6 +7795,258 @@ var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
 var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
 var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
+//import Maybe, Native.List //
+
+var _elm_lang$core$Native_Regex = function() {
+
+function escape(str)
+{
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+function caseInsensitive(re)
+{
+	return new RegExp(re.source, 'gi');
+}
+function regex(raw)
+{
+	return new RegExp(raw, 'g');
+}
+
+function contains(re, string)
+{
+	return string.match(re) !== null;
+}
+
+function find(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex === re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		out.push({
+			match: result[0],
+			submatches: _elm_lang$core$Native_List.fromArray(subs),
+			index: result.index,
+			number: number
+		});
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+function replace(n, re, replacer, string)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		return replacer({
+			match: match,
+			submatches: _elm_lang$core$Native_List.fromArray(submatches),
+			index: arguments[arguments.length - 2],
+			number: count
+		});
+	}
+	return string.replace(re, jsReplacer);
+}
+
+function split(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	if (n === Infinity)
+	{
+		return _elm_lang$core$Native_List.fromArray(str.split(re));
+	}
+	var string = str;
+	var result;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		if (!(result = re.exec(string))) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+return {
+	regex: regex,
+	caseInsensitive: caseInsensitive,
+	escape: escape,
+
+	contains: F2(contains),
+	find: F3(find),
+	replace: F4(replace),
+	split: F3(split)
+};
+
+}();
+
+var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
+var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
+var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
+var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
+var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
+var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
+var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
+var _elm_lang$core$Regex$Match = F4(
+	function (a, b, c, d) {
+		return {match: a, submatches: b, index: c, number: d};
+	});
+var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
+var _elm_lang$core$Regex$AtMost = function (a) {
+	return {ctor: 'AtMost', _0: a};
+};
+var _elm_lang$core$Regex$All = {ctor: 'All'};
+
 var _elm_lang$html$Html_Attributes$map = _elm_lang$virtual_dom$VirtualDom$mapProperty;
 var _elm_lang$html$Html_Attributes$attribute = _elm_lang$virtual_dom$VirtualDom$attribute;
 var _elm_lang$html$Html_Attributes$contextmenu = function (value) {
@@ -8282,121 +8397,6 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
-var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
-var _elm_lang$html$Html_Events$targetChecked = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'checked',
-			_1: {ctor: '[]'}
-		}
-	},
-	_elm_lang$core$Json_Decode$bool);
-var _elm_lang$html$Html_Events$targetValue = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'value',
-			_1: {ctor: '[]'}
-		}
-	},
-	_elm_lang$core$Json_Decode$string);
-var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
-var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
-var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
-var _elm_lang$html$Html_Events$onFocus = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'focus',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onBlur = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'blur',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
-	_elm_lang$html$Html_Events$defaultOptions,
-	{preventDefault: true});
-var _elm_lang$html$Html_Events$onSubmit = function (msg) {
-	return A3(
-		_elm_lang$html$Html_Events$onWithOptions,
-		'submit',
-		_elm_lang$html$Html_Events$onSubmitOptions,
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onCheck = function (tagger) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'change',
-		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
-};
-var _elm_lang$html$Html_Events$onInput = function (tagger) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'input',
-		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
-};
-var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mouseout',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mouseover',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mouseleave',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mouseenter',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mouseup',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'mousedown',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'dblclick',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$onClick = function (msg) {
-	return A2(
-		_elm_lang$html$Html_Events$on,
-		'click',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _elm_lang$html$Html_Events$Options = F2(
-	function (a, b) {
-		return {stopPropagation: a, preventDefault: b};
-	});
-
 var _user$project$Views_Form$control = F3(
 	function (element, attributes, children) {
 		return A2(
@@ -8535,7 +8535,8 @@ var _user$project$Main$output = function (model) {
 };
 var _user$project$Main$initModel = {
 	json: {ctor: '[]'},
-	formattedPage: ''
+	formattedPage: '',
+	readingsOpen: false
 };
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Main$requestSelection = _elm_lang$core$Native_Platform.outgoingPort(
@@ -8563,105 +8564,8 @@ var _user$project$Main$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'SetBody':
-				var formattedPage = A4(
-					_elm_lang$core$Regex$replace,
-					_elm_lang$core$Regex$All,
-					_elm_lang$core$Regex$regex('</indent>'),
-					function (_p3) {
-						return '</span>';
-					},
-					A4(
-						_elm_lang$core$Regex$replace,
-						_elm_lang$core$Regex$All,
-						_elm_lang$core$Regex$regex('<indent>'),
-						function (_p4) {
-							return '<span class=\"indent\">';
-						},
-						A4(
-							_elm_lang$core$Regex$replace,
-							_elm_lang$core$Regex$All,
-							_elm_lang$core$Regex$regex('</plaintext>'),
-							function (_p5) {
-								return '</div>';
-							},
-							A4(
-								_elm_lang$core$Regex$replace,
-								_elm_lang$core$Regex$All,
-								_elm_lang$core$Regex$regex('<plaintext>'),
-								function (_p6) {
-									return '<div class=\"plaintext\">';
-								},
-								A4(
-									_elm_lang$core$Regex$replace,
-									_elm_lang$core$Regex$All,
-									_elm_lang$core$Regex$regex('</reference>'),
-									function (_p7) {
-										return '</span>';
-									},
-									A4(
-										_elm_lang$core$Regex$replace,
-										_elm_lang$core$Regex$All,
-										_elm_lang$core$Regex$regex('<reference>'),
-										function (_p8) {
-											return '<span class=\"reference\">';
-										},
-										A4(
-											_elm_lang$core$Regex$replace,
-											_elm_lang$core$Regex$All,
-											_elm_lang$core$Regex$regex('</rubric>'),
-											function (_p9) {
-												return '</div>';
-											},
-											A4(
-												_elm_lang$core$Regex$replace,
-												_elm_lang$core$Regex$All,
-												_elm_lang$core$Regex$regex('<rubric>'),
-												function (_p10) {
-													return '<div class=\"rubric\">';
-												},
-												A4(
-													_elm_lang$core$Regex$replace,
-													_elm_lang$core$Regex$All,
-													_elm_lang$core$Regex$regex('</sectionTitle>'),
-													function (_p11) {
-														return '</div>';
-													},
-													A4(
-														_elm_lang$core$Regex$replace,
-														_elm_lang$core$Regex$All,
-														_elm_lang$core$Regex$regex('<sectionTitle>'),
-														function (_p12) {
-															return '<div class=\"sectionTitle\">';
-														},
-														A4(
-															_elm_lang$core$Regex$replace,
-															_elm_lang$core$Regex$All,
-															_elm_lang$core$Regex$regex('</title>'),
-															function (_p13) {
-																return '</div>';
-															},
-															A4(
-																_elm_lang$core$Regex$replace,
-																_elm_lang$core$Regex$All,
-																_elm_lang$core$Regex$regex('<title>'),
-																function (_p14) {
-																	return '<div class=\"title\">';
-																},
-																A4(
-																	_elm_lang$core$Regex$replace,
-																	_elm_lang$core$Regex$All,
-																	_elm_lang$core$Regex$regex('\n'),
-																	function (_p15) {
-																		return '<br />';
-																	},
-																	model.formattedPage)))))))))))));
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{formattedPage: _p2._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				var _p3 = A2(_elm_lang$core$Debug$log, 'SET BODY: ', _p2._0);
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'SetSectionType':
 				return {
 					ctor: '_Tuple2',
@@ -8678,10 +8582,23 @@ var _user$project$Main$update = F2(
 						})
 				};
 			case 'Save':
-				var _p16 = A2(_elm_lang$core$Debug$log, 'SAVE: ', 'DO SOME SAVING HERE...');
+				var _p4 = A2(_elm_lang$core$Debug$log, 'SAVE: ', 'DO SOME SAVING HERE...');
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'SetReading':
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{readingsOpen: false});
+				return {ctor: '_Tuple2', _0: newModel, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'ShowReading':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{readingsOpen: !model.readingsOpen}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
-				var _p18 = _p2._0;
+				var _p6 = _p2._0;
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -8690,11 +8607,11 @@ var _user$project$Main$update = F2(
 							model.json,
 							{
 								ctor: '::',
-								_0: _p18.text,
+								_0: _p6.text,
 								_1: {ctor: '[]'}
 							})
 					});
-				var _p17 = A2(_elm_lang$core$Debug$log, 'SELECTION: ', _p18);
+				var _p5 = A2(_elm_lang$core$Debug$log, 'SELECTION: ', _p6);
 				return {
 					ctor: '_Tuple2',
 					_0: newModel,
@@ -8734,10 +8651,20 @@ var _user$project$Main$Selection = F3(
 	function (a, b, c) {
 		return {ofType: a, text: b, selection: c};
 	});
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {json: a, formattedPage: b};
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {json: a, formattedPage: b, readingsOpen: c};
 	});
+var _user$project$Main$GS = {ctor: 'GS'};
+var _user$project$Main$NT = {ctor: 'NT'};
+var _user$project$Main$PS = {ctor: 'PS'};
+var _user$project$Main$OT = {ctor: 'OT'};
+var _user$project$Main$EPsalms = {ctor: 'EPsalms'};
+var _user$project$Main$EP2 = {ctor: 'EP2'};
+var _user$project$Main$EP1 = {ctor: 'EP1'};
+var _user$project$Main$MPsalms = {ctor: 'MPsalms'};
+var _user$project$Main$MP2 = {ctor: 'MP2'};
+var _user$project$Main$MP1 = {ctor: 'MP1'};
 var _user$project$Main$RequestedSelection = function (a) {
 	return {ctor: 'RequestedSelection', _0: a};
 };
@@ -8749,16 +8676,18 @@ var _user$project$Main$subscriptions = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$SetSectionType = function (a) {
-	return {ctor: 'SetSectionType', _0: a};
+var _user$project$Main$ShowReading = {ctor: 'ShowReading'};
+var _user$project$Main$SetReading = function (a) {
+	return {ctor: 'SetReading', _0: a};
 };
-var _user$project$Main$typeMenu = function () {
+var _user$project$Main$readingOptions = function (model) {
+	var showClass = model.readingsOpen ? _elm_lang$html$Html_Attributes$class('dib fl w-100 w-10-ns pa2 z-5') : _elm_lang$html$Html_Attributes$class('dn');
 	var btnClass = _elm_lang$html$Html_Attributes$class('btn btn-sm pull-xs-right btn-primary w-80');
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('fl w-100 w-10-ns pa2'),
+			_0: showClass,
 			_1: {ctor: '[]'}
 		},
 		{
@@ -8771,13 +8700,13 @@ var _user$project$Main$typeMenu = function () {
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Main$SetSectionType('title')),
+							_user$project$Main$SetReading(_user$project$Main$MP1)),
 						_1: {ctor: '[]'}
 					}
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Title'),
+					_0: _elm_lang$html$Html$text('MP Lesson 1'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -8790,13 +8719,13 @@ var _user$project$Main$typeMenu = function () {
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Main$SetSectionType('sectionTitle')),
+								_user$project$Main$SetReading(_user$project$Main$MP2)),
 							_1: {ctor: '[]'}
 						}
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text('Section'),
+						_0: _elm_lang$html$Html$text('MP Lesson 2'),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -8809,13 +8738,13 @@ var _user$project$Main$typeMenu = function () {
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(
-									_user$project$Main$SetSectionType('rubric')),
+									_user$project$Main$SetReading(_user$project$Main$MPsalms)),
 								_1: {ctor: '[]'}
 							}
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Rubric'),
+							_0: _elm_lang$html$Html$text('MP Psalms'),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
@@ -8828,13 +8757,13 @@ var _user$project$Main$typeMenu = function () {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Main$SetSectionType('reference')),
+										_user$project$Main$SetReading(_user$project$Main$EP1)),
 									_1: {ctor: '[]'}
 								}
 							},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('Reference'),
+								_0: _elm_lang$html$Html$text('EP Lesson 1'),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -8847,13 +8776,13 @@ var _user$project$Main$typeMenu = function () {
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Main$SetSectionType('plaintext')),
+											_user$project$Main$SetReading(_user$project$Main$EP2)),
 										_1: {ctor: '[]'}
 									}
 								},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('Plain text'),
+									_0: _elm_lang$html$Html$text('EP Lesson 2'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -8866,13 +8795,13 @@ var _user$project$Main$typeMenu = function () {
 										_1: {
 											ctor: '::',
 											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Main$SetSectionType('indent')),
+												_user$project$Main$SetReading(_user$project$Main$EPsalms)),
 											_1: {ctor: '[]'}
 										}
 									},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('Indent'),
+										_0: _elm_lang$html$Html$text('EP Psalms'),
 										_1: {ctor: '[]'}
 									}),
 								_1: {
@@ -8885,13 +8814,13 @@ var _user$project$Main$typeMenu = function () {
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(
-													_user$project$Main$SetSectionType('scripture')),
+													_user$project$Main$SetReading(_user$project$Main$OT)),
 												_1: {ctor: '[]'}
 											}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Scripture'),
+											_0: _elm_lang$html$Html$text('Euch. OT'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {
@@ -8904,16 +8833,75 @@ var _user$project$Main$typeMenu = function () {
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Events$onClick(
-														_user$project$Main$SetSectionType('versicals')),
+														_user$project$Main$SetReading(_user$project$Main$NT)),
 													_1: {ctor: '[]'}
 												}
 											},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html$text('Versicals'),
+												_0: _elm_lang$html$Html$text('Euch. NT'),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: btnClass,
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Main$SetReading(_user$project$Main$PS)),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Euch. Psalm'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: btnClass,
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Main$SetReading(_user$project$Main$GS)),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Euch. Gospel'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: btnClass,
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ShowReading),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('CANCEL'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
 									}
 								}
 							}
@@ -8922,7 +8910,283 @@ var _user$project$Main$typeMenu = function () {
 				}
 			}
 		});
-}();
+};
+var _user$project$Main$SetSectionType = function (a) {
+	return {ctor: 'SetSectionType', _0: a};
+};
+var _user$project$Main$typeMenu = function (model) {
+	var showClass = model.readingsOpen ? _elm_lang$html$Html_Attributes$class('dn') : _elm_lang$html$Html_Attributes$class('fl w-100 w-10-ns pa2');
+	var danger = _elm_lang$html$Html_Attributes$class('btn btn-sm pull-xs-right btn-primary w-80 hover-bg-dark-red');
+	var inactive = _elm_lang$html$Html_Attributes$class('btn btn-sm pull-xs-right btn-primary w-80 o-50');
+	var btnClass = _elm_lang$html$Html_Attributes$class('btn btn-sm pull-xs-right btn-primary w-80');
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: showClass,
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{
+					ctor: '::',
+					_0: inactive,
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Main$SetSectionType('meta')),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Meta Data'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: btnClass,
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Main$SetSectionType('title')),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Title ^T'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: btnClass,
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(
+									_user$project$Main$SetSectionType('sectionTitle')),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Section ^C'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: btnClass,
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Main$SetSectionType('rubric')),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Rubric ^R'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: btnClass,
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Main$SetSectionType('reference')),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Reference ^F'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: btnClass,
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Main$SetSectionType('plaintext')),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Plain text ↩'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: btnClass,
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Main$SetSectionType('indent')),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Indent ^I'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: btnClass,
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Main$SetSectionType('scripture')),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Scripture ^S'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: inactive,
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Main$SetSectionType('versicals')),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Versicals ^V'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: inactive,
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Main$SetSectionType('psalm')),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Psalm ^P'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: inactive,
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	_user$project$Main$SetSectionType('psalm')),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Call/Resp ^R'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: btnClass,
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ShowReading),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Reading'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$button,
+																{
+																	ctor: '::',
+																	_0: danger,
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(
+																			_user$project$Main$SetSectionType('delete')),
+																		_1: {ctor: '[]'}
+																	}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Delete'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
 var _user$project$Main$SetBody = function (a) {
 	return {ctor: 'SetBody', _0: a};
 };
@@ -8948,7 +9212,11 @@ var _user$project$Main$viewForm = function (model) {
 						_1: {
 							ctor: '::',
 							_0: A2(_elm_lang$html$Html_Attributes$attribute, 'rows', '30'),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$SetBody),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				},
@@ -8959,7 +9227,7 @@ var _user$project$Main$viewForm = function (model) {
 					_elm_lang$html$Html$button,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('btn btn-lg pull-xs-right btn-primary'),
+						_0: _elm_lang$html$Html_Attributes$class('btn btn-lg pull-xs-right btn-primary o-50'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -8995,28 +9263,32 @@ var _user$project$Main$view = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$Main$typeMenu,
+			_0: _user$project$Main$typeMenu(model),
 			_1: {
 				ctor: '::',
-				_0: _user$project$Main$leftSide(model),
+				_0: _user$project$Main$readingOptions(model),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$id('preview'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('fl w-30 pa2 ba black b--white-70'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
+					_0: _user$project$Main$leftSide(model),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Main$output(model),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$id('preview'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('fl w-30 pa2 ba black b--white-70'),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Main$output(model),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
